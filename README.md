@@ -1,4 +1,4 @@
-# LangGraph Patterns: A Production-Oriented Guide
+# Langgraph: LangGraph Patterns Guide
 
 These eight examples use the LangGraph Graph API with the current `StateGraph`, `START`/`END`, conditional-edge, `Send`, and checkpoint interfaces. Each linked Python file is self-contained, uses deterministic mock data instead of credentials, and includes executable `unittest` tests. The included discovery adapter collects the numbered examples for a single suite run.
 
