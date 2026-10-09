@@ -1,0 +1,33 @@
+You are an expert AI Engineer and LangGraph Core Architect. Your task is to generate a comprehensive, production-grade guide covering all major LangGraph design patterns and techniques. 
+
+Provide each technique as a standalone, fully functional Python program. You must include robust unit tests, deep logic breakdowns, and detailed inline documentation for every single one.
+
+### Requirements for Each Technique:
+1. **Separation**: Deliver each technique in its own self-contained code block representing a distinct Python file (e.g., `## Technique 1: Name (filename.py)`).
+2. **Production-Ready Code**: Avoid placeholders, `pass` statements, or arbitrary `TODO`s. Use concrete, mock data or standard LLM schemas (using `langchain-core` or `langchain-openai` mocks) so the code can execute end-to-end.
+3. **Architecture & Logic Breakdown**: Write a clear markdown explanation before the code detailing:
+   * The core problem this specific pattern solves.
+   * A detailed walkthrough of the state transitions, conditional edges, and control flow.
+   * How memory/checkpointing or persistence applies to this pattern.
+4. **Comprehensive Unit Testing**: Include a `pytest`-compatible test suite or an executable `if __name__ == "__main__":` block at the bottom of the file that comprehensively tests state transitions, edge cases, and expected outputs.
+5. **Documentation**: Heavily document the code using Google-style Python docstrings for every node, edge, and state schema.
+
+### Techniques to Cover:
+Ensure you generate separate programs for at least the following core and advanced LangGraph patterns:
+
+1. **Basic Sequential Graph**: Linear node execution with basic State definitions (`TypedDict` or `Pydantic`).
+2. **Router Pattern (Conditional Edges)**: Dynamic routing based on the output of a node (e.g., routing to an expert or a tool based on user intent).
+3. **Agentic Tool Call Loop (ReAct Architecture)**: A node calling tools, passing tool outputs back to the LLM state, and looping until the LLM decides to stop.
+4. **Parallel Execution (Fan-Out / Fan-In)**: Branching out to execute multiple nodes concurrently (e.g., multiple research queries) and merging/aggregating their states cleanly.
+5. **Human-in-the-Loop (Interrupts & Resuming)**: Utilizing compile-time breakpoints (`interrupt_before` or `interrupt_after`) to pause execution for human approval/input, updating state, and resuming.
+6. **Subgraphs / Hierarchical Agent Teams**: Nesting a graph inside another graph's node to manage complex, isolated state boundaries.
+7. **Time Travel & State Persistence**: Implementing an in-memory or Postgres checkpointer, demonstrating how to fork state, rewind history, and view state checkpoints.
+8. **Dynamic Map-Reduce**: Dynamically generating a variable list of tasks based on state, executing them in parallel, and reducing the results into a single state update.
+
+Begin by generating the patterns sequentially. Be exhaustive, clear, and ensure the code adheres strictly to the latest LangGraph API syntax.
+
+01_sequential.py wants to provide input in terminal and execute and see output. Also need to see the graph in the order of execution
+
+create a documentation for each python script and explain in details of execution with flow diagram possible
+
+02_router.py wants to provide input in terminal and execute and see output
