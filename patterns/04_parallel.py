@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+import sys
 
 from typing_extensions import NotRequired, TypedDict
 
@@ -58,6 +59,19 @@ def build_graph():
     return builder.compile()
 
 
+def run_interactive() -> None:
+    """Prompt for a research question and print each graph update."""
+    question = input("Enter a research question: ")
+    graph = build_graph()
+
+    print("\nExecution order:")
+    for update in graph.stream({"question": question}, stream_mode="updates"):
+        for node_name, node_update in update.items():
+            print(f"[{node_name}]")
+            for key, value in node_update.items():
+                print(f"  {key}: {value}")
+
+
 class ParallelGraphTests(unittest.TestCase):
     """Assert both outputs are present before synthesis and merge."""
 
@@ -72,4 +86,7 @@ class ParallelGraphTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    if sys.argv[1:] == ["--test"]:
+        unittest.main(argv=[sys.argv[0]])
+    else:
+        run_interactive()

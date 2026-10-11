@@ -35,10 +35,11 @@ The test helper `run_review` performs those operations in sequence. The lower-le
 
 ```powershell
 python patterns/05_human_approval.py
+python patterns/05_human_approval.py --test
 python -m unittest discover -s patterns -p "test_*.py" -v
 ```
 
-Tests assert the pause location and proposal, then verify both approved and rejected outcomes.
+The first command prompts for an action and approval decision, then prints the executed or rejected status. Tests assert the pause location and proposal, then verify both approved and rejected outcomes.
 
 ## Persistence and Safety
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+import sys
 from typing import Literal
 
 from langgraph.checkpoint.memory import InMemorySaver
@@ -92,6 +93,29 @@ def run_review(action: str, approved: bool, thread_id: str) -> ApprovalState:
     return graph.invoke(None, config)
 
 
+def run_interactive() -> ApprovalState:
+    """Collect an action and approval decision, then print the final status."""
+    action = input("Enter an action to review: ").strip()
+    graph = build_graph()
+    config = {"configurable": {"thread_id": "terminal-approval"}}
+    graph.invoke(
+        {"action": action, "approved": False, "proposal": "", "status": "new"},
+        config,
+    )
+
+    pending = graph.get_state(config)
+    if pending.next != ("approval_gate",):
+        raise RuntimeError(f"Expected review pause before approval_gate; got {pending.next!r}")
+    print(f"\nReview proposal: {pending.values['proposal']}")
+    decision = input("Approve this action? [y/N]: ").strip().casefold()
+    approved = decision in {"y", "yes"}
+
+    graph.update_state(config, {"approved": approved})
+    result: ApprovalState = graph.invoke(None, config)
+    print(f"Final status: {result['status']}")
+    return result
+
+
 class HumanApprovalTests(unittest.TestCase):
     """Verify pause location, approval, and rejection behavior."""
 
@@ -125,4 +149,7 @@ class HumanApprovalTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    if sys.argv[1:] == ["--test"]:
+        unittest.main(argv=[sys.argv[0]])
+    else:
+        run_interactive()
